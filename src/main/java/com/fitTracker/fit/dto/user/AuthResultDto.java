@@ -8,10 +8,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class AuthDto {
+public class AuthResultDto {
 
-    private String email;
+     private UserDto user;
 
-    private String password;
+     private TokenPairDto tokenPair;
 
 }

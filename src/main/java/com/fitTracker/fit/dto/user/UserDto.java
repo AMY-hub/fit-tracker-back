@@ -12,11 +12,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class UserDto implements Serializable {
-    private String name;
-
+    private String firstname;
+    private String lastname;
     private String email;
-
-    private UserDetailsDto details;
-
     private UserRole role;
+    private UserParamsDto details;
 }

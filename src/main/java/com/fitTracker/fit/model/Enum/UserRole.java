@@ -7,8 +7,12 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum UserRole {
-    USER("user"),
-    ADMIN("admin");
+    USER("USER"),
+    ADMIN("ADMIN");
 
     private final String value;
+
+    public String getRoleWithPrefix() {
+        return  "ROLE_" + this.value;
+    }
 }

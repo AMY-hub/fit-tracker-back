@@ -1,11 +1,17 @@
 package com.fitTracker.fit.mapper.user;
 
+import com.fitTracker.fit.dto.user.RegistrationDto;
 import com.fitTracker.fit.dto.user.UserDto;
 import com.fitTracker.fit.model.user.User;
 import org.mapstruct.*;
 
-@Mapper(uses = UserDetailsMapper.class, builder = @Builder(disableBuilder = true))
-public abstract class UserMapper {
-    public abstract User toModel(UserDto userDto);
-    public abstract UserDto toDto(User user);
+import java.util.List;
+
+@Mapper(uses = UserParamsMapper.class)
+public interface UserMapper {
+    User toModel(UserDto userDto);
+    User toModel(RegistrationDto userDto);
+    @Mapping(target = "role", source = "role.role")
+    UserDto toDto(User user);
+    List<UserDto> toDtos(List<User> users);
 }

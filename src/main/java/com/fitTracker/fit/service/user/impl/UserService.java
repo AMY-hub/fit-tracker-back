@@ -1,41 +1,49 @@
 package com.fitTracker.fit.service.user.impl;
 
 import com.fitTracker.fit.dto.user.*;
-import com.fitTracker.fit.mapper.user.UserDetailsMapper;
-import com.fitTracker.fit.mapper.user.UserMapper;
-import com.fitTracker.fit.model.Enum.UserRole;
+import com.fitTracker.fit.exception.UserNotFoundException;
+import com.fitTracker.fit.mapper.user.UserParamsMapper;
 import com.fitTracker.fit.model.user.User;
-import com.fitTracker.fit.model.user.UserDetails;
-import com.fitTracker.fit.repository.user.UserDetailsRepository;
+import com.fitTracker.fit.repository.user.UserParamsRepository;
 import com.fitTracker.fit.repository.user.UserRepository;
 import com.fitTracker.fit.service.user.interfaces.IUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class UserService implements IUserService {
 
     private final UserRepository userRepository;
-    private final UserDetailsRepository userDetailsRepository;
-    private final UserDetailsMapper userDetailsMapper;
+    private final UserParamsRepository userDetailsRepository;
+    private final UserParamsMapper userDetailsMapper;
 
     @Override
     public User getById(Long id) {
-        return userRepository.findById(id).orElseThrow();
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("ID", id.toString()));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
     @Override
     public User getByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow();
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("email", email));
     }
 
     @Override
-    public AuthInfoDto changePassword(ChangePasswordDto changePasswordDto) {
+    public AuthResultDto changePassword(ChangePasswordDto changePasswordDto) {
         return null;
     }
 
@@ -47,31 +55,5 @@ public class UserService implements IUserService {
     @Override
     public void restorePassword(RestorePasswordDto restorePasswordDto) {
 
-    }
-
-    @Override
-    public User create(RegistrationDto userData) {
-//        UserDetailsDto detailsData = userData.getDetails();
-
-        UserDetails details = UserDetails.builder()
-                .gender(userData.getGender())
-                .height(userData.getHeight())
-                .dateOfBirth(userData.getDateOfBirth())
-                .initialWeight(userData.getInitialWeight())
-                .targetWeight(userData.getTargetWeight())
-                .build();
-
-        User user = User.builder()
-                .createdAt(OffsetDateTime.now())
-                .role(UserRole.USER)
-                .name(userData.getName())
-                .email(userData.getEmail())
-                .password(userData.getPassword())
-                .details(details)
-                .build();
-
-
-        userDetailsRepository.saveAndFlush(details);
-        return userRepository.saveAndFlush(user);
     }
 }

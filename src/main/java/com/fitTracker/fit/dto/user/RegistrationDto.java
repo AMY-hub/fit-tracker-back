@@ -1,9 +1,6 @@
 package com.fitTracker.fit.dto.user;
 
-import com.fitTracker.fit.model.Enum.Gender;
 import lombok.*;
-
-import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -12,21 +9,10 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class RegistrationDto {
-    private String name;
-
+    private String firstname;
+    private String lastname;
     private String email;
-
     private String password;
 
-    private Double initialWeight;
-
-    private Double targetWeight;
-
-    private Gender gender;
-
-    private OffsetDateTime dateOfBirth;
-
-    private String height;
-
-//    private UserDetailsDto details;
+    private UserParamsDto details;
 }
