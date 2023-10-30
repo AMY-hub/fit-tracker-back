@@ -70,6 +70,6 @@ public class AuthenticationService implements IAuthenticationService {
 
     @Override
     public TokenPairDto refreshTokens(TokenPairDto tokenPairDto) {
-        return null;
+        return jwtService.refreshTokenPair(tokenPairDto.getRefreshToken());
     }
 }

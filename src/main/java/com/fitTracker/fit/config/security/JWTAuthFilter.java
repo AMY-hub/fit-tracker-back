@@ -1,5 +1,6 @@
 package com.fitTracker.fit.config.security;
 
+import com.fitTracker.fit.model.Enum.TokenType;
 import com.fitTracker.fit.service.jwt.JWTService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -42,18 +43,16 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             Collection<GrantedAuthority> a = new ArrayList<>();
             a.add(new SimpleGrantedAuthority("ROLE_USER"));
             a.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            if(jwtService.isTokenValid(token, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        token,
-                        a);
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-                SecurityContext ctx = SecurityContextHolder.getContext();
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
+            jwtService.validateToken(token, TokenType.ACCESS, userDetails);
+
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    token,
+                    a);
+            authToken.setDetails(
+                    new WebAuthenticationDetailsSource().buildDetails(request)
+            );
+            SecurityContextHolder.getContext().setAuthentication(authToken);
         }
         filterChain.doFilter(request, response);
     }
