@@ -1,4 +1,4 @@
-package com.fitTracker.fit.dto.user;
+package com.fitTracker.fit.dto.responseDto.user;
 
 import lombok.*;
 
@@ -13,5 +13,4 @@ public class AuthResultDto {
      private UserDto user;
 
      private TokenPairDto tokenPair;
-
 }

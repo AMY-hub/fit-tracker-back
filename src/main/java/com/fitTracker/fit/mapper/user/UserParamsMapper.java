@@ -1,6 +1,6 @@
 package com.fitTracker.fit.mapper.user;
 
-import com.fitTracker.fit.dto.user.UserParamsDto;
+import com.fitTracker.fit.dto.responseDto.user.UserParamsDto;
 import com.fitTracker.fit.model.user.UserParams;
 import org.mapstruct.*;
 

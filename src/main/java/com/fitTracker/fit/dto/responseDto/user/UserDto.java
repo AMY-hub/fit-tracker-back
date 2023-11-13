@@ -1,6 +1,9 @@
-package com.fitTracker.fit.dto.user;
+package com.fitTracker.fit.dto.responseDto.user;
 
+import com.fitTracker.fit.model.Enum.UserRole;
 import lombok.*;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -8,11 +11,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class RegistrationDto {
+public class UserDto implements Serializable {
     private String firstname;
     private String lastname;
     private String email;
-    private String password;
-
+    private UserRole role;
     private UserParamsDto details;
 }

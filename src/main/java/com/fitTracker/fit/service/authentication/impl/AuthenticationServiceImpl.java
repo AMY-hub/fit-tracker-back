@@ -1,7 +1,11 @@
 package com.fitTracker.fit.service.authentication.impl;
 
-import com.fitTracker.fit.dto.user.*;
-import com.fitTracker.fit.exception.UserNotFoundException;
+import com.fitTracker.fit.dto.responseDto.user.UserDto;
+import com.fitTracker.fit.dto.requestDto.user.AuthDto;
+import com.fitTracker.fit.dto.responseDto.user.AuthResultDto;
+import com.fitTracker.fit.dto.requestDto.user.RegistrationDto;
+import com.fitTracker.fit.dto.responseDto.user.TokenPairDto;
+import com.fitTracker.fit.exception.NotFoundException;
 import com.fitTracker.fit.mapper.user.UserParamsMapper;
 import com.fitTracker.fit.mapper.user.UserMapper;
 import com.fitTracker.fit.model.user.User;
@@ -10,19 +14,22 @@ import com.fitTracker.fit.model.user.UserRole;
 import com.fitTracker.fit.repository.user.UserParamsRepository;
 import com.fitTracker.fit.repository.user.UserRepository;
 import com.fitTracker.fit.repository.user.UserRoleRepository;
-import com.fitTracker.fit.service.authentication.interfaces.IAuthenticationService;
+import com.fitTracker.fit.service.authentication.interfaces.AuthenticationService;
 import com.fitTracker.fit.service.jwt.JWTService;
-import com.fitTracker.fit.validation.user.impl.AuthInfoValidator;
+import com.fitTracker.fit.validation.auth.interfaces.AuthInfoValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
 
+import static com.fitTracker.fit.util.ErrorTemplates.USER_NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService implements IAuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthInfoValidator authInfoValidator;
     private final JWTService jwtService;
@@ -32,6 +39,7 @@ public class AuthenticationService implements IAuthenticationService {
     private final UserParamsMapper userDetailsMapper;
     private final UserRoleRepository userRoleRepository;
 
+    @Transactional
     @Override
     public UserDto register(RegistrationDto registrationDto) {
             UserParams details = userDetailsMapper.toModel(registrationDto.getDetails());
@@ -54,10 +62,11 @@ public class AuthenticationService implements IAuthenticationService {
             return userMapper.toDto(newUser);
     }
 
+    @Transactional
     @Override
     public AuthResultDto authenticate(AuthDto authDto) throws IOException {
         User user = userRepository.findByEmail(authDto.getEmail())
-                .orElseThrow(() -> new UserNotFoundException("email", authDto.getEmail()));
+                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND, "email", authDto.getEmail()));
 
         authInfoValidator.throwIfNotValidPassword(authDto.getPassword(), user.getPassword());
 

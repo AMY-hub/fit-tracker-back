@@ -1,5 +1,6 @@
-package com.fitTracker.fit.dto.user;
+package com.fitTracker.fit.dto.responseDto.user;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 @Getter
@@ -9,7 +10,9 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class TokenPairDto {
+    @NotEmpty(message = "Token can not be empty")
     private String accessToken;
 
+    @NotEmpty(message = "Token can not be empty")
     private String refreshToken;
 }
