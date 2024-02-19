@@ -1,7 +1,7 @@
 package com.fitTracker.fit.service.authentication.impl;
 
 import com.fitTracker.fit.dto.responseDto.user.UserDto;
-import com.fitTracker.fit.dto.requestDto.user.AuthDto;
+import com.fitTracker.fit.dto.requestDto.user.LoginDto;
 import com.fitTracker.fit.dto.responseDto.user.AuthResultDto;
 import com.fitTracker.fit.dto.requestDto.user.RegistrationDto;
 import com.fitTracker.fit.dto.responseDto.user.TokenPairDto;
@@ -64,7 +64,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Transactional
     @Override
-    public AuthResultDto authenticate(AuthDto authDto) throws IOException {
+    public AuthResultDto authenticate(LoginDto authDto) throws IOException {
         User user = userRepository.findByEmail(authDto.getEmail())
                 .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND, "email", authDto.getEmail()));
 

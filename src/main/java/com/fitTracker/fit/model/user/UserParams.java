@@ -23,7 +23,7 @@ public class UserParams extends BaseIdentity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private String height;
+    private Double height;
 
     private OffsetDateTime dateOfBirth;
 

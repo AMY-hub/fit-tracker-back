@@ -14,6 +14,7 @@ import com.fitTracker.fit.model.user.User;
 import com.fitTracker.fit.repository.user.UserParamsRepository;
 import com.fitTracker.fit.repository.user.UserRepository;
 import com.fitTracker.fit.service.jwt.JWTService;
+import com.fitTracker.fit.service.mail.LetterService;
 import com.fitTracker.fit.service.mail.MailService;
 import com.fitTracker.fit.service.user.interfaces.UserService;
 import com.fitTracker.fit.validation.auth.interfaces.AuthInfoValidator;
@@ -39,13 +40,10 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final UserChecker userChecker;
 
-    private final MailService mailService;
-    private final MailConfig mailConfig;
+    private final LetterService letterService;
 
     @Override
     public User getById(Long id) {
-        String path = mailConfig.getPasswordPath();
-        mailService.sendEMail("anastasia.asi@yandex.ru", "Test mail", "mail message");
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found with ID: " + id));
     }
@@ -90,12 +88,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void requestPasswordReset(RequestResetPasswordDto resetPasswordDto) {
             userChecker.checkIfExistsByEmail(resetPasswordDto.getEmail());
-            final String link = "http://localhost:8080}/password-reset";
-
             String resetToken = jwtService.generateToken(new HashMap<>(), resetPasswordDto.getEmail(), TokenType.RESET);
-            String resetLink = link + "%s?token=%s";
-
-
+            letterService.sendPasswordResetLetter(resetToken, resetPasswordDto.getEmail());
     }
 
     @Transactional

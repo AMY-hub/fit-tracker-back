@@ -1,7 +1,8 @@
-package com.fitTracker.fit.service.mail;
+package com.fitTracker.fit.service.mail.impl;
 
 import com.fitTracker.fit.config.mail.MailConfig;
 import com.fitTracker.fit.exception.InternalServerException;
+import com.fitTracker.fit.service.mail.MailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
@@ -28,9 +29,10 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendMailWithContent(String to, String subject, String text, String content) {
+    public void sendMailWithHtmlContent(String to, String subject, String content) {
         try {
             MimeMessage message = buildMimeMessage(to, subject);
+            message.setContent(content, "text/html; charset=UTF-8");
             javaMailSender.send(message);
         } catch (MessagingException e) {
             String errMessage = String.format("Exception when trying to send MIME message to %s with subject %s", to, subject);

@@ -86,7 +86,11 @@ public class WebSecurityConfig {
     @RequiredArgsConstructor
     private class EnvWebSecurityConfig {
         private final JWTAuthFilter jwtAuthFilter;
-        private static final String[] WHITE_LIST_URL = {"/api/v1/auth/login","/api/v1/auth/refresh", "/api/v1/auth/register"};
+        private static final String[] WHITE_LIST_URL = {
+                "/api/v1/auth/login",
+                "/api/v1/auth/refresh",
+                "/api/v1/auth/register",
+                "/api/v1/user/password-reset"};
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
