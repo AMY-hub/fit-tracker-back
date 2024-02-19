@@ -1,7 +1,7 @@
 package com.fitTracker.fit.controller.authentication;
 
 import com.fitTracker.fit.dto.responseDto.user.UserDto;
-import com.fitTracker.fit.dto.requestDto.user.AuthDto;
+import com.fitTracker.fit.dto.requestDto.user.LoginDto;
 import com.fitTracker.fit.dto.responseDto.user.AuthResultDto;
 import com.fitTracker.fit.dto.requestDto.user.RegistrationDto;
 import com.fitTracker.fit.dto.responseDto.user.TokenPairDto;
@@ -27,7 +27,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResultDto> register(@RequestBody @Valid AuthDto authDto) throws IOException {
+    public ResponseEntity<AuthResultDto> register(@RequestBody @Valid LoginDto authDto) throws IOException {
         return ResponseEntity.ok(authenticationService.authenticate(authDto));
     }
 

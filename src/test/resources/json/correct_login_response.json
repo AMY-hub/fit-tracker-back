@@ -1,0 +1,15 @@
+{
+  "user": {
+    "firstname": "Tester3",
+    "lastname": "Tester3",
+    "email": "tester3@gmail.com",
+    "role": "USER",
+    "details": {
+      "initialWeight": 100.0,
+      "targetWeight": 80.0,
+      "gender": "MALE",
+      "dateOfBirth": null,
+      "height": "186"
+    }
+  }
+}

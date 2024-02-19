@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class AuthDto {
+public class LoginDto {
 
     @Email(message = "Not valid email")
     @NotEmpty(message = "Email can not be empty")

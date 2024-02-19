@@ -20,6 +20,5 @@ public interface UserService {
     AuthResultDto changePassword(ChangePasswordDto changePasswordDto);
 
     void requestPasswordReset(RequestResetPasswordDto resetPasswordDto);
-
     void resetPassword(RestorePasswordDto restorePasswordDto);
 }

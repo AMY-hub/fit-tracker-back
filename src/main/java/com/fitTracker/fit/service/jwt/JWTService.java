@@ -23,6 +23,8 @@ public interface JWTService {
 
     void validateToken(String token, TokenType tokenType, UserDetails userDetails);
 
+    void validateToken(String token, TokenType tokenType);
+
     String extractUserName(String token);
     String extractUserName();
     <T> T extractClaim(String token, Function<Claims, T> claimResolver);

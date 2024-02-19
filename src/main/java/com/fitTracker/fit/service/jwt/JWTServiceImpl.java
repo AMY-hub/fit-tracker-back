@@ -121,6 +121,15 @@ public class JWTServiceImpl implements JWTService {
         }
     }
 
+    @Override
+    public void validateToken(String token, TokenType tokenType) {
+        if (!isTokenValid(token, tokenType)) {
+            throw new BadRequestException("Invalid token");
+        } else if (isTokenExpired(token)) {
+            throw new BadRequestException("Token expired");
+        }
+    }
+
     private boolean isTokenValid(String token, TokenType tokenType, UserDetails userDetails) {
         try {
             JwtParser parser = Jwts.parserBuilder().setSigningKey(getSignInKey()).build();
@@ -137,7 +146,7 @@ public class JWTServiceImpl implements JWTService {
         try {
             JwtParser parser = Jwts.parserBuilder().setSigningKey(getSignInKey()).build();
             Jwt parsedJwt = parser.parse(token);
-            return tokenType.equals(parsedJwt.getHeader().get("tokenType"));
+            return tokenType.toString().equals(parsedJwt.getHeader().get("tokenType").toString());
         } catch (IOException ex) {
             return false;
         }
